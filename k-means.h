@@ -1,6 +1,6 @@
 #ifndef k_means
 #define k_means
-void normalize_vals(double  **pixel_data, int size, int * min_vals, int * max_vals);
+void normalize_vals(double  *pixel_data, int size, int * min_vals, int * max_vals);
 void print_pixel(double  *pixel_data, int size);
 void print_pixel(double * arr, int size);
 double normalize_val(double value, double max_vals, double min_vals);

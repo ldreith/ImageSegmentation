@@ -1,5 +1,5 @@
 all: k-means
 k-means: k-means.c k-means.h
-	gcc k-means.c -o k-means -g
+	gccx k-means.c -o k-means -lm
 clean:
 	rm k-means
