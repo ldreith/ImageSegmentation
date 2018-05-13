@@ -19,7 +19,7 @@ struct pixel * centroids[CENTROIDS];
 int main(){
 //R G B X Y
 int min_vals[DIMENSIONS]={0,0,0,0,0};
-int max_vals[DIMENSIONS]={252,250,255,1920,1080};
+int max_vals[DIMENSIONS]={252,250,255,5,2};
     time_t t;
     srand((unsigned) time(&t));
     //placing centroids in random initial locations
@@ -28,13 +28,18 @@ int max_vals[DIMENSIONS]={252,250,255,1920,1080};
 	normalize_vals(centroids[i]->location, DIMENSIONS, min_vals, max_vals);
     }
     //setting random values for pixels(as we dont have an image yet) and normalizing said values
-    for(int i=0;i<10;i++){
+    for(int i=0;i<NUMPIX;i++){
     pixel_data[i]=add_pixel(place_k(min_vals,max_vals));
     normalize_vals(pixel_data[i]->location, DIMENSIONS, min_vals, max_vals);
     }
     double comp;
+    //for how much centroids are moving
+    double largest_change=0;
     comp=0;
-    for(int i=0;i<10;i++){
+    //keep updating centroids and recalculating all given pixels distances to said centroids until the centroids stop moving, that is once largest_chage<0.01;
+    do{
+    //gets each pixels centroid distance
+    for(int i=0;i<NUMPIX;i++){
 	for(int j=0;j<CENTROIDS;j++){
 	comp=get_distance(centroids[j]->location, pixel_data[i]->location);
 	if(pixel_data[i]->lowest_dist>comp){
@@ -44,8 +49,47 @@ int max_vals[DIMENSIONS]={252,250,255,1920,1080};
 	}
     print_pixel(pixel_data[i]);
     }
-free_all(pixel_data, 10);
+    //updating each centroid
+    double temp;
+    for(int l=0;l<CENTROIDS;l++){
+	if((temp=update_centroid_location(&(centroids[l]->location), l, NUMPIX))>largest_change)
+	    largest_change=temp;
+    }
+    } while(largest_change>0.1);
+free_all(pixel_data, NUMPIX);
 free_all(centroids, CENTROIDS);
+}
+//returns difference between the centroid
+//useful to know how a centroid is changing
+double update_centroid_location(double **centroid, int centroid_num, int numpix){
+    double old_cent[DIMENSIONS];
+    double *sum=malloc(DIMENSIONS*sizeof(double));
+    if(!sum){
+    perror("couldnt allocate memory");
+    exit(4);
+    }
+    int pixcount=0;
+    for(int i=0;i<numpix;i++){
+	if(pixel_data[i]->centroid==centroid_num){
+	    pixcount++;
+	    for(int j=0;j<DIMENSIONS;j++){
+		old_cent[j]=*centroid[j];
+		sum[j]+=pixel_data[i]->location[j];
+	    }
+	}
+    }
+    for(int m=0;m<DIMENSIONS;m++){
+    sum[m]=(sum[m]/numpix);
+    }
+    centroid=&sum;
+    return get_diff(*centroid, old_cent);
+}
+double get_diff(double * cent, double * old_cent){
+    double diff=0;
+    for(int i=0;i<DIMENSIONS; i++){
+	diff+=sqrt(pow(cent[i]-old_cent[i],2));
+    }
+    return diff;
 }
 void free_all(struct pixel ** arr, int count){
     for(int i=0;i<count;i++){
