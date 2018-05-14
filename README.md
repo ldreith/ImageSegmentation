@@ -7,6 +7,12 @@ Using K-Means to segment an input image by RGB value.
 - Jichen Liu
 - Leo Schumann
 
+#Stage Demo
+UNCOMMENT:
+31-43
+73
+COMMENT:
+115
 # TODO
 - Finalize Application Architecture
 - Implement Necessary "Domain" Objects
