@@ -4,7 +4,7 @@ Using K-Means to segment an input image by RGB value.
 # Contributors
 - Lars Dreith
 - David Gold
-- Jichen Liu
+- Jiachen Liu
 - Leo Schumann
 
 #Stage Demo
