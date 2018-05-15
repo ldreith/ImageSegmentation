@@ -8,7 +8,7 @@ int centroid;
 double * location;
 };
 struct pixel ** pixel_data;
-struct pixel ** kmeans(int *min_vals, int * max_vals, int CENTROIDS, int DIMENSIONS, double ** pixel_raw_data);
+int * kmeans(int *min_vals, int * max_vals, int CENTROIDS, int DIMENSIONS, double ** pixel_raw_data);
 double get_avg_dist(int numpix, struct pixel ** pixel_data);
 double get_diff(double * cent, double * old_cent, int DIMENSIONS);
 double update_centroid_location(double *centroid, int centroid_num, int numpix, struct pixel ** pixel_data, int DIMENSIONS);

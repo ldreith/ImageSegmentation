@@ -5,7 +5,7 @@
 #include <math.h>
 #include <time.h>
 #include <float.h>
-struct pixel ** kmeans(int * min_vals, int * max_vals, int CENTROIDS, int DIMENSIONS, double ** pixel_raw_data){
+int * kmeans(int * min_vals, int * max_vals, int CENTROIDS, int DIMENSIONS, double ** pixel_raw_data){
 //X Y R G B
 pixel_data=malloc(sizeof(int)*NUMPIX);
 struct pixel * centroids[CENTROIDS];
@@ -42,11 +42,16 @@ struct pixel * centroids[CENTROIDS];
 	if((temp=update_centroid_location(centroids[l]->location, l, NUMPIX, pixel_data, DIMENSIONS))>largest_change)
 	    largest_change=temp;
     }
-    printf("avg_dist: %f\n", get_avg_dist(NUMPIX,pixel_data));
     } while(largest_change>0.0001);
     //free_all(pixel_data, NUMPIX);
     free_all(centroids, CENTROIDS);
-    return pixel_data;
+    int *smp_pix=malloc(sizeof(int)*NUMPIX);
+    for(int i=0;i<NUMPIX;i++){
+	smp_pix[i]=pixel_data[i]->centroid;
+    }
+    free(pixel_raw_data);
+    free_all(pixel_data,NUMPIX);
+    return smp_pix;
 }
 double get_avg_dist(int numpix, struct pixel ** pixel_data){
     double avg=0;
