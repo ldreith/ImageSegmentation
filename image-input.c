@@ -4,8 +4,16 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <jpeglib.h>
 #include <jerror.h>
+#include "image-input.h"
+
+int main() {
+	int ** min_array = NULL;
+	int ** max_array = NULL;
+	double ** array = read_JPEG_file("red.jpg", min_array, max_array);
+}
 
 /*
  * Reads in a JPEG file
@@ -13,7 +21,7 @@
  *
  * This can't be copied over in its current form. It needs to be reorganized to allow the array to be accessed.
  */
-double ** read_JPEG_file (char * filename, double ** min_array, double ** max_array)
+double ** read_JPEG_file (char * filename, int ** min_array, int ** max_array)
 {
     unsigned long x, y;
     unsigned long data_size;	// length of file
@@ -24,8 +32,8 @@ double ** read_JPEG_file (char * filename, double ** min_array, double ** max_ar
     unsigned char r, g, b;
 
     // dereferencing pointers & setting default min for x and y
-    min_array = malloc(size_of(double) * 5);
-    max_array = malloc(size_of(double) * 5);
+    min_array = malloc(sizeof(int) * 5);
+    max_array = malloc(sizeof(int) * 5);
     *min_array[0] = 0;
     *min_array[1] = 0;
 
@@ -48,7 +56,6 @@ double ** read_JPEG_file (char * filename, double ** min_array, double ** max_ar
     // set width and height
     x = info.output_width;
     y = info.output_height;
-    type = GL_RGB;
     data_size = x * y * 3;
     *max_array[0] = x;
     *max_array[1] = y;
@@ -63,12 +70,16 @@ double ** read_JPEG_file (char * filename, double ** min_array, double ** max_ar
 	array[i]=malloc(sizeof(double)*5);
 	if(!array[i]){
 	    perror("Could not allocate space");
-	    exit(4)
+	    exit(4);
 	}
     }
 
     // setting variables for max and min RGB values
-    double r_max, g_max; b_max; r_min; g_min; b_min;
+    int r_max, g_max, b_max, r_min, g_min, b_min;
+
+    // making JPEG buffer
+    JSAMPARRAY pJpegBuffer = (JSAMPARRAY)malloc(sizeof(JSAMPROW));
+    pJpegBuffer[0] = (JSAMPROW)malloc(sizeof(JSAMPLE) * x * info.output_components);
 
     // read scanlines one at a time & put bytes in jdata[] array.
     jdata = (unsigned char *)malloc(data_size);
@@ -78,20 +89,20 @@ double ** read_JPEG_file (char * filename, double ** min_array, double ** max_ar
     {
 	jpeg_read_scanlines(&info, rowptf, 1);
 	if( count == 0 ){
-	    r = pJpegBuffer[0][cinfo.output_components * i];
-	    g = pJpegBuffer[0][cinfo.output_components * i + 1];
-	    b = pJpegBuffer[0][cinfo.output_components * i + 2];
+	    r = pJpegBuffer[0][info.output_components * 0];
+	    g = pJpegBuffer[0][info.output_components * 1];
+	    b = pJpegBuffer[0][info.output_components * 2];
 	    array[count][2] = r; array[count][3] = g; array[count][4] = b;
 	    r_max = r; r_min = r;
 	    g_max = g; g_min = g;
 	    b_max = b; b_min = b;
 	    count++;
 	} else{
-	    for (int i = 0; i < x; i++){
+	    for (int i = 0; i < (int) x; i++){
 		array[count][0] = i; array[count][2] = row;
-		r = pJpegBuffer[0][cinfo.output_components * i];
-		g = pJpegBuffer[0][cinfo.output_components * i + 1];
-		b = pJpegBuffer[0][cinfo.output_components * i + 2];
+		r = pJpegBuffer[0][info.output_components * i];
+		g = pJpegBuffer[0][info.output_components * i + 1];
+		b = pJpegBuffer[0][info.output_components * i + 2];
 	        array[count][2] = r; array[count][3] = g; array[count][4] = b;
 		if( r > r_max ){ r_max = r; }
 		if( r < r_min ){ r_min = r; }
