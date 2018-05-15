@@ -7,6 +7,7 @@ double lowest_dist;
 int centroid;
 double * location;
 };
+double get_avg_dist(int numpix);
 double get_diff(double * cent, double * old_cent);
 double update_centroid_location(double *centroid, int centroid_num, int numpix);
 void free_all(struct pixel ** arr, int count);
