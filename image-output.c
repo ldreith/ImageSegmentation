@@ -9,14 +9,17 @@
 #include <time.h>
 #include "image-output.h"
 
-void output_image(int * clustered_array, int image_height, int image_width, int k) {
+/*
+ * This function does the main work of the program and will be called by outside
+ * programs.
+ */
+void output_image(int * clustered_array, int image_height, int image_width, int k, char * filename) {
   int image_pixels = image_height*image_width;
   JSAMPLE * image_buffer = malloc(CHANNELS * sizeof(JSAMPLE) * image_pixels);
 
   color_image(clustered_array, image_pixels, k, image_buffer);
 
   // let's get the parameters for writing the JPEG file
-  char * filename = "segmented_image.jpg";
   int quality = 100;
   write_JPEG_file(filename, quality, image_buffer, image_height, image_width);
   free(image_buffer);
