@@ -10,9 +10,10 @@
 #include "image-input.h"
 
 int main() {
-	int ** min_array = NULL;
-	int ** max_array = NULL;
+	int * min_array = NULL;
+	int * max_array = NULL;
 	double ** array = read_JPEG_file("red.jpg", min_array, max_array);
+	printf(" %d %d %d %d %d \n", min_array[0], min_array[1], min_array[2], min_array[3], min_array[4]);
 }
 
 /*
@@ -21,7 +22,7 @@ int main() {
  *
  * This can't be copied over in its current form. It needs to be reorganized to allow the array to be accessed.
  */
-double ** read_JPEG_file (char * filename, int ** min_array, int ** max_array)
+double ** read_JPEG_file (char * filename, int * min_array, int * max_array)
 {
     unsigned long x, y;
     unsigned long data_size;	// length of file
@@ -33,9 +34,18 @@ double ** read_JPEG_file (char * filename, int ** min_array, int ** max_array)
 
     // dereferencing pointers & setting default min for x and y
     min_array = malloc(sizeof(int) * 5);
+    if(!min_array){
+	perror("could not allocate space.");
+	exit(4);
+    }
     max_array = malloc(sizeof(int) * 5);
-    *min_array[0] = 0;
-    *min_array[1] = 0;
+    if(!max_array){
+	perror("could not allocate space.");
+	exit(4);
+    }
+    min_array[0] = 0;
+    min_array[1] = 0;
+
 
     FILE * file = fopen(filename, "rb"); // open the file
 
@@ -57,8 +67,8 @@ double ** read_JPEG_file (char * filename, int ** min_array, int ** max_array)
     x = info.output_width;
     y = info.output_height;
     data_size = x * y * 3;
-    *max_array[0] = x;
-    *max_array[1] = y;
+    max_array[0] = x;
+    max_array[1] = y;
 
     // creating array of appropriate size
     double ** array=malloc(sizeof(double)*(x*y));
@@ -118,9 +128,9 @@ double ** read_JPEG_file (char * filename, int ** min_array, int ** max_array)
     }
 
     // setting info in max and min arrays
-    *max_array[2] = r_max; *min_array[2] = r_min;
-    *max_array[3] = g_max; *min_array[3] = g_min;
-    *max_array[4] = b_max; *min_array[4] = b_min;
+    max_array[2] = r_max; min_array[2] = r_min;
+    max_array[3] = g_max; min_array[3] = g_min;
+    max_array[4] = b_max; min_array[4] = b_min;
 
     jpeg_finish_decompress(&info); // finish decompressing
     
