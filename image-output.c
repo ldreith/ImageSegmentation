@@ -13,11 +13,7 @@ void output_image(int * clustered_array, int image_height, int image_width, int 
   int image_pixels = image_height*image_width;
   JSAMPLE * image_buffer = malloc(CHANNELS * sizeof(JSAMPLE) * image_pixels);
 
-  printf("Line 44: image_height = %d, image_width = %d\n", image_height, image_width);
-
   color_image(clustered_array, image_pixels, k, image_buffer);
-
-  printf("Line 48: image_height = %d, image_width = %d\n", image_height, image_width);
 
   // let's get the parameters for writing the JPEG file
   char * filename = "segmented_image.jpg";
