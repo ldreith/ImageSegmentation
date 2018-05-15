@@ -9,41 +9,17 @@
 #include <time.h>
 #include "image-output.h"
 
-//extern JSAMPLE * image_buffer;	/* Points to large array of R,G,B-order data */
-//extern int image_height;	/* Number of rows in image */
-//extern int image_width;		/* Number of columns in image */
-
-// TEST CODE
-int main() {
-  srand(time(NULL));
-
-  int image_height = 100;
-  int image_width = 200;
-  int image_pixels = image_height*image_width;
-
-  int clustered_array[image_pixels];
-
-  //make arbitrary noisy jpeg with k colors
-  int k = 3;
-  for (int i = 0; i < image_pixels; i++) {
-    clustered_array[i] = rand() % k;
-  }
-
-  output_image(clustered_array, image_height, image_width, k);
-}
-
-void output_image(int * clustered_array, int image_height, int image_width, int k) {
+/*
+ * This function does the main work of the program and will be called by outside
+ * programs.
+ */
+void output_image(int * clustered_array, int image_height, int image_width, int k, char * filename) {
   int image_pixels = image_height*image_width;
   JSAMPLE * image_buffer = malloc(CHANNELS * sizeof(JSAMPLE) * image_pixels);
 
-  printf("Line 44: image_height = %d, image_width = %d\n", image_height, image_width);
-
   color_image(clustered_array, image_pixels, k, image_buffer);
 
-  printf("Line 48: image_height = %d, image_width = %d\n", image_height, image_width);
-
   // let's get the parameters for writing the JPEG file
-  char * filename = "segmented_image.jpg";
   int quality = 100;
   write_JPEG_file(filename, quality, image_buffer, image_height, image_width);
   free(image_buffer);
