@@ -59,10 +59,10 @@ void read_JPEG_file (char * filename)
 	jpeg_read_scanlines(&info, rowptf, 1);
 
 	for (int i = 0; i < x; i++){
-	    array[count][1] = i; array[count][row];
-	    array[count][3] = pJpegBuffer[0][cinfo.output_components * i];
-	    array[count][4] = pJpegBuffer[0][cinfo.output_components * i + 1];
-	    array[count][5] = pJpegBuffer[0][cinfo.output_components * i + 2];
+	    array[count][0] = i; array[count][2] = row;
+	    array[count][2] = pJpegBuffer[0][cinfo.output_components * i];
+	    array[count][3] = pJpegBuffer[0][cinfo.output_components * i + 1];
+	    array[count][4] = pJpegBuffer[0][cinfo.output_components * i + 2];
 	    count++;
 	}
 
