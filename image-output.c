@@ -30,6 +30,7 @@ int main() {
   }
 
   output_image(clustered_array, image_height, image_width, k);
+  free(clustered_array);
 }
 
 void output_image(int * clustered_array, int image_height, int image_width, int k) {
