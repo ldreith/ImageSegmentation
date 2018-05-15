@@ -7,16 +7,11 @@
 #include <stdlib.h>
 #include <jpeglib.h>
 #include <time.h>
-
-#define CHANNELS 3
+#include "image-output.h"
 
 //extern JSAMPLE * image_buffer;	/* Points to large array of R,G,B-order data */
 //extern int image_height;	/* Number of rows in image */
 //extern int image_width;		/* Number of columns in image */
-
-void write_JPEG_file(char * filename, int quality, JSAMPLE * image_buffer, int image_height, int image_width);
-void color_image(int * clustered_array, int image_pixels, int k, JSAMPLE * image_buffer);
-void output_image(int * clustered_array, int image_height, int image_width, int k);
 
 // TEST CODE
 int main() {
