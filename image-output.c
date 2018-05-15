@@ -16,43 +16,42 @@
 
 void write_JPEG_file(char * filename, int quality, JSAMPLE * image_buffer, int image_height, int image_width);
 void color_image(int * clustered_array, int image_pixels, int k, JSAMPLE * image_buffer);
+void output_image(int * clustered_array, int image_height, int image_width, int k);
 
-/*
 // TEST CODE
 int main() {
   srand(time(NULL));
 
   int image_height = 100;
   int image_width = 200;
-
   int image_pixels = image_height*image_width;
-  int image_channels = image_pixels*CHANNELS;
 
-  JSAMPLE image_array[image_channels];
   int clustered_array[image_pixels];
 
-  int k = 2;
+  //make arbitrary noisy jpeg with k colors
+  int k = 3;
   for (int i = 0; i < image_pixels; i++) {
     clustered_array[i] = rand() % k;
   }
 
-  JSAMPLE * image_buffer = &image_array[0];
-  color_image(clustered_array, image_pixels, k, image_buffer);
-
-  write_JPEG_file("hello.jpg", 100, image_buffer, image_height, image_width);
+  output_image(clustered_array, image_height, image_width, k);
 }
-*/
 
 void output_image(int * clustered_array, int image_height, int image_width, int k) {
   int image_pixels = image_height*image_width;
-  JSAMPLE image_buffer[image_pixels];
+  JSAMPLE * image_buffer = malloc(CHANNELS * sizeof(JSAMPLE) * image_pixels);
+
+  printf("Line 44: image_height = %d, image_width = %d\n", image_height, image_width);
 
   color_image(clustered_array, image_pixels, k, image_buffer);
+
+  printf("Line 48: image_height = %d, image_width = %d\n", image_height, image_width);
 
   // let's get the parameters for writing the JPEG file
   char * filename = "segmented_image.jpg";
   int quality = 100;
   write_JPEG_file(filename, quality, image_buffer, image_height, image_width);
+  free(image_buffer);
 }
 
 /*
@@ -61,30 +60,29 @@ void output_image(int * clustered_array, int image_height, int image_width, int 
  */
 void color_image(int * clustered_array, int image_pixels, int k, JSAMPLE * image_buffer) {
   // first we will need to get k arbitrary colors
-  int cluster_rgb[k][CHANNELS];
-  for (int i = 0; i < k; i++) {
-    for (int j = 0; j < CHANNELS; j++) {
-      cluster_rgb[i][j] = rand() % 256;
-      printf("%d ", cluster_rgb[i][j]);
+  int * cluster_rgb = malloc(CHANNELS * sizeof(int));
+  for (int cluster = 0; cluster < k; cluster++) {
+    for (int chann = 0; chann < CHANNELS; chann++) {
+      cluster_rgb[cluster+chann] = rand() % 256;
     }
-    putchar('\n');
   }
   // then we will need put those colors accordingly into the matrix
   // iterate through all the pixels
-  for (int i = 0; i < image_pixels; i++) {
+  for (int pixel = 0; pixel < image_pixels; pixel++) {
     // and each channel of the pixels
-    int cluster_id = clustered_array[i];
-    for (int j = 0; j < CHANNELS; j++) {
-      int image_index = i*CHANNELS + j;
-      image_buffer[image_index] = cluster_rgb[cluster_id][j];
+    int cluster = clustered_array[pixel];
+    for (int chann = 0; chann < CHANNELS; chann++) {
+      int image_index = pixel*CHANNELS + chann;
+      image_buffer[image_index] = cluster_rgb[cluster+chann];
     }
   }
+  free(cluster_rgb);
 }
 
 /*
  * Sample routine for JPEG compression.  We assume that the target file name
  * and a compression quality factor are passed in.
- * Adapted from example.c file in the libjpeg github repository, found here:
+ * Taken from example.c file in the libjpeg github repository, found here:
  * https://github.com/LuaDist/libjpeg/blob/master/example.c
  */
 void write_JPEG_file (char * filename, int quality, JSAMPLE * image_buffer, int image_height, int image_width)
