@@ -11,15 +11,15 @@
  * Reads in a JPEG file
  * Structure inspired by https://stackoverflow.com/questions/5616216/need-help-in-reading-jpeg-file-using-libjpeg#22463461
  */
-void read_JPEG_file (char * filename) // change from void
+void read_JPEG_file (char * filename)
 {
     unsigned long x, y;
     unsigned long data_size;	// length of file
-    int channels;		// 3 => RGB, 4 => RGBA
     unsigned char * rowptf[1];	// pointer to an array
     unsigned char * jdata;	// data for the image
     struct jpeg_decompress_struct info;	// for our jpeg info
     struct jpeg_error_mgr err;		// the error handler
+    unsigned char r, g, b;
 
     FILE * file = fopen(filename, "rb"); // open the file
 
@@ -40,23 +40,31 @@ void read_JPEG_file (char * filename) // change from void
     // set width and height
     x = info.output_width;
     y = info.output_height;
-    channels = info.num_components;
     type = GL_RGB;
-    if( channels == 4 ){ 
-	type = GL_RGBA; 
-	data_size = x * y * 4;
-    } else {
-	type = GL_RGB;
-	data_size = x * y * 3;
-    }
+    data_size = x * y * 3;
 
-    // read scanlines one at a time & put bypes in jdata[] array.
+    // creating array
+    int array[x * y][5];
+
+    // read scanlines one at a time & put bytes in jdata[] array.
     jdata = (unsigned char *)malloc(data_size);
+    int row = 0;
+    int count = 0;
     while( info.output_scanline < info.output_height )
     {
-	rowptr[0] = (unsigned char *)jdata + 
-	    3* info.output_width * info.output_scanline;
+	/*rowptr[0] = (unsigned char *)jdata + 
+	    3* info.output_width * info.output_scanline;*/ // what is this for???
 	jpeg_read_scanlines(&info, rowptf, 1);
+
+	for (int i = 0; i < x; i++){
+	    array[count][1] = i; array[count][row];
+	    array[count][3] = pJpegBuffer[0][cinfo.output_components * i];
+	    array[count][4] = pJpegBuffer[0][cinfo.output_components * i + 1];
+	    array[count][5] = pJpegBuffer[0][cinfo.output_components * i + 2];
+	    count++;
+	}
+
+	row++;
     }
 
     jpeg_finish_decompress(&info); // finish decompressing
