@@ -10,6 +10,8 @@
 /*
  * Reads in a JPEG file
  * Structure inspired by https://stackoverflow.com/questions/5616216/need-help-in-reading-jpeg-file-using-libjpeg#22463461
+ *
+ * This can't be copied over in its current form. It needs to be reorganized to allow the array to be accessed.
  */
 void read_JPEG_file (char * filename)
 {
@@ -43,7 +45,7 @@ void read_JPEG_file (char * filename)
     type = GL_RGB;
     data_size = x * y * 3;
 
-    // creating array
+    // creating array of appropriate size
     int array[x * y][5];
 
     // read scanlines one at a time & put bytes in jdata[] array.
@@ -70,4 +72,6 @@ void read_JPEG_file (char * filename)
     jpeg_finish_decompress(&info); // finish decompressing
     
     fclose(file);
+
+    // variable "array" should be in the correct format for k-means
 }
