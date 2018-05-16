@@ -18,10 +18,10 @@ void free_array(int * arr){
 int main(int argc, char **argv){
     char *output_filename = "default_out";
     if (argc < 3){
-	printf("invalid input");
+	printf("invalid input1");
 	exit(1);    				
     }
-    if (!isdigit(argv[2])){
+    if (!isdigit(*argv[2])){
 	printf("invalid input");
 	exit(1);
     }

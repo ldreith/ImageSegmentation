@@ -115,4 +115,7 @@ double ** read_JPEG_file (char * filename, int * min_array, int * max_array)
     
     fclose(file);
     return array;
+
 }
+
+
