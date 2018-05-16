@@ -9,13 +9,6 @@
 #include <jerror.h>
 #include "image-input.h"
 
-int main() {
-	int min_array[5];
-	int max_array[5];
-	double ** array = read_JPEG_file("red.jpg", min_array, max_array);
-	printf(" %d %d %d %d %d \n", min_array[0], min_array[1], min_array[2], min_array[3], min_array[4]);
-}
-
 /*
  * Reads in a JPEG file
  * Structure inspired by https://stackoverflow.com/questions/5616216/need-help-in-reading-jpeg-file-using-libjpeg#22463461
