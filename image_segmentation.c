@@ -28,8 +28,12 @@ int main(int argc, char **argv){
     if (argc ==4){
 	output_filename = argv[3];
     }
-    char *filename = argv[1]; 
-    int k = *argv[2]-'0';
+    char *filename = argv[1];
+    char *ptr = argv[2];
+    int k = 0;
+    while (ptr != NULL){
+	k = k*10 + *ptr-'0';
+    } 
     int min_array[5];
     int max_array[5];
     double ** pixel_raw_data= read_JPEG_file(filename, min_array, max_array);
