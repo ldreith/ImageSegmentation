@@ -23,6 +23,7 @@ void output_image(int * clustered_array, int image_height, int image_width, int 
   int quality = 100;
   write_JPEG_file(filename, quality, image_buffer, image_height, image_width);
   free(image_buffer);
+  free(clustered_array);
 }
 
 /*
@@ -31,7 +32,7 @@ void output_image(int * clustered_array, int image_height, int image_width, int 
  */
 void color_image(int * clustered_array, int image_pixels, int k, JSAMPLE * image_buffer) {
   // first we will need to get k arbitrary colors
-  int * cluster_rgb = malloc(CHANNELS * sizeof(int));
+  int * cluster_rgb = malloc(k * CHANNELS * sizeof(int));
   for (int cluster = 0; cluster < k; cluster++) {
     for (int chann = 0; chann < CHANNELS; chann++) {
       cluster_rgb[cluster+chann] = rand() % 256;
