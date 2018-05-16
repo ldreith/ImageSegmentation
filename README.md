@@ -12,7 +12,7 @@ Parts:
 K-means abstract: David Gold and Jiachen Liu 
 
 
-k-means.c -- all methods for k-means algorithm. Implemented by David Gold. Pseudo code for get_diff and update_centroids from Jiachen Liu.
+k-means.c -- all methods for k-means algorithm. Implemented by David Gold. Previous version of get_diff and update_centroids implemented by Jiachen Liu.
 
 k-means.h -- header for k-means algorithm. Implemented by David Gold. 
 
@@ -50,6 +50,6 @@ Makefile -- implemented by Jiachen Liu.
 Readme.md -- implemented by David Gold.
 
 
-ImageSegmentation.1 -- Man page for image segmentation program. Implemented by David Gold.
+ImageSegmentation.1 -- Man page for image segmentation program. Implemented by David Gold, and modified by Jiachen Liu.
 
 
