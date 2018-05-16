@@ -23,6 +23,7 @@ void output_image(int * clustered_array, int image_height, int image_width, int 
   int quality = 100;
   write_JPEG_file(filename, quality, image_buffer, image_height, image_width);
   free(image_buffer);
+  free(clustered_array);
 }
 
 /*
