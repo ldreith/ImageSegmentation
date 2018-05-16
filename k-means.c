@@ -1,3 +1,4 @@
+//by David Gold, and Jiachen Liu
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
