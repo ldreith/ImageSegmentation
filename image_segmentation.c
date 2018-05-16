@@ -31,7 +31,7 @@ int main(int argc, char **argv){
     char *filename = argv[1];
     char *ptr = argv[2];
     int k = 0;
-    while (ptr != NULL){
+    while (*ptr != '\0'){
 	k = k*10 + *ptr-'0';
 	ptr ++;
     } 
