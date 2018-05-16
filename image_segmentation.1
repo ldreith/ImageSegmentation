@@ -1,0 +1,21 @@
+.\" Man page for image segmentation
+.\" David Gold 4/15/18
+.TH image_segmentation  1 "15 May 2018" "CSCI 241" "Oberlin College"
+
+.SH NAME
+.B K-Means Image Segmentation
+\- An unsupervised clustering algorithm.   
+.SH SYNOPSIS
+.B image_segmentation
+.SH DESCRIPTION
+image_segmentation inputfile num_clusters [outpufile]
+ Program takes a input picture of jpg format and number of clusters the images into groups based off X location, Y location, and R,G,B vals. If no output file specified, default outputfile name is default_out.  
+.SP
+ ./ImageSegmentation infile.jpeg K outfile.jpeg
+.SH OPTIONS
+Program takes user input for an image file to decompress, an int for number of groups for the image, and the name of the output file (optional).  
+.SH AUTHOR
+David Gold Lars Dreith Leo Schumann Jiachen Liu (Spring 2018)
+.SH BUGS
+No bugs!
+
