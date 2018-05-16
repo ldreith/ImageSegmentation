@@ -8,7 +8,7 @@
 #include <float.h>
 int * kmeans(int * min_vals, int * max_vals, int CENTROIDS, int DIMENSIONS, double ** pixel_raw_data){
 //X Y R G B
-pixel_data=malloc(sizeof(int)*NUMPIX);
+pixel_data=malloc(sizeof(struct pixel)*NUMPIX);
 struct pixel * centroids[CENTROIDS];
     time_t t;
     srand((unsigned) time(&t));
@@ -20,6 +20,8 @@ struct pixel * centroids[CENTROIDS];
     for(int i=0;i<NUMPIX;i++){
 	pixel_data[i]=add_pixel(pixel_raw_data[i]);
 	normalize_vals(pixel_data[i]->location, DIMENSIONS, min_vals, max_vals);
+	if(i==NUMPIX-1)
+	printf(" ");
     }
     //for how much centroids are moving
     double largest_change=0;
@@ -49,6 +51,9 @@ struct pixel * centroids[CENTROIDS];
     int *smp_pix=malloc(sizeof(int)*NUMPIX);
     for(int i=0;i<NUMPIX;i++){
 	smp_pix[i]=pixel_data[i]->centroid;
+	if(pixel_data[i]->centroid>CENTROIDS){
+	exit(3);
+	}
     }
     free(pixel_raw_data);
     free_all(pixel_data,NUMPIX);

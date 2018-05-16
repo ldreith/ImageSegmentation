@@ -15,7 +15,7 @@
  */
 void output_image(int * clustered_array, int image_height, int image_width, int k, char * filename) {
   int image_pixels = image_height*image_width;
-  JSAMPLE * image_buffer = malloc(CHANNELS * image_pixels * sizeof(JSAMPLE));
+  JSAMPLE * image_buffer = malloc(CHANNELS * sizeof(JSAMPLE) * image_pixels);
 
   color_image(clustered_array, image_pixels, k, image_buffer);
 
@@ -32,12 +32,10 @@ void output_image(int * clustered_array, int image_height, int image_width, int 
  */
 void color_image(int * clustered_array, int image_pixels, int k, JSAMPLE * image_buffer) {
   // first we will need to get k arbitrary colors
-  // seed the random number generator
-  srand(time(NULL));
   int * cluster_rgb = malloc(k * CHANNELS * sizeof(int));
   for (int cluster = 0; cluster < k; cluster++) {
     for (int chann = 0; chann < CHANNELS; chann++) {
-      cluster_rgb[cluster*CHANNELS+chann] = rand() % 256;
+      cluster_rgb[cluster+chann] = rand() % 256;
     }
   }
   // then we will need put those colors accordingly into the matrix
@@ -46,10 +44,8 @@ void color_image(int * clustered_array, int image_pixels, int k, JSAMPLE * image
     // and each channel of the pixels
     int cluster = clustered_array[pixel];
     for (int chann = 0; chann < CHANNELS; chann++) {
-      // we get the proper image index by multiplying the pixel index by the
-      // number of channels and then adding the index of the current channel
-      int image_index = pixel * CHANNELS + chann;
-      image_buffer[image_index] = cluster_rgb[cluster*CHANNELS+chann];
+      int image_index = pixel*CHANNELS + chann;
+      image_buffer[image_index] = cluster_rgb[cluster+chann];
     }
   }
   free(cluster_rgb);

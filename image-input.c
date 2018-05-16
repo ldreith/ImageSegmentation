@@ -13,7 +13,6 @@
  * Reads in a JPEG file
  * Structure inspired by https://stackoverflow.com/questions/5616216/need-help-in-reading-jpeg-file-using-libjpeg#22463461
  *
- * This can't be copied over in its current form. It needs to be reorganized to allow the array to be accessed.
  */
 double ** read_JPEG_file (char * filename, int * min_array, int * max_array)
 {
@@ -30,16 +29,13 @@ double ** read_JPEG_file (char * filename, int * min_array, int * max_array)
 
 
     FILE * file = fopen(filename, "rb"); // open the file
-
-    info.err = jpeg_std_error(& err);
-    jpeg_create_decompress( & info ); // fills info structure
-
     // if the jpeg file doesn't load
     if( !file ){
 	fprintf(stderr, "Error reading JPEG file %s", filename);
 	return 0;
     }
-
+    info.err = jpeg_std_error(& err);
+    jpeg_create_decompress( & info ); // fills info structure
     jpeg_stdio_src(&info, file);
     jpeg_read_header(&info, TRUE); // read jpeg file header
 
@@ -74,7 +70,7 @@ double ** read_JPEG_file (char * filename, int * min_array, int * max_array)
     pJpegBuffer[0] = (JSAMPROW)malloc(sizeof(JSAMPLE) * x * info.output_components);
 
     // read scanlines one at a time & put bytes in jdata[] array.
-    jdata = (unsigned char *)malloc(data_size);
+    jdata = malloc(sizeof(unsigned char) * data_size);
     int row = 0;
     int count = 0;
     while( info.output_scanline < info.output_height )
@@ -94,6 +90,10 @@ double ** read_JPEG_file (char * filename, int * min_array, int * max_array)
 		g = pJpegBuffer[0][info.output_components * i + 1];
 		b = pJpegBuffer[0][info.output_components * i + 2];
 	        array[count][2] = r; array[count][3] = g; array[count][4] = b;
+		if( r_max >256 || g_max >256 || b_max>256){
+		printf("no");
+		exit(2);
+		}
 		if( r > r_max ){ r_max = r; }
 		if( r < r_min ){ r_min = r; }
 		if( g > g_max ){ g_max = g; }
