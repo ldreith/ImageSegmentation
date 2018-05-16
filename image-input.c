@@ -10,8 +10,8 @@
 #include "image-input.h"
 
 int main() {
-	int * min_array = NULL;
-	int * max_array = NULL;
+	int min_array[5];
+	int max_array[5];
 	double ** array = read_JPEG_file("red.jpg", min_array, max_array);
 	printf(" %d %d %d %d %d \n", min_array[0], min_array[1], min_array[2], min_array[3], min_array[4]);
 }
@@ -32,16 +32,6 @@ double ** read_JPEG_file (char * filename, int * min_array, int * max_array)
     unsigned char r, g, b;
 
     // dereferencing pointers & setting default min for x and y
-    min_array = malloc(sizeof(int) * 5);
-    if(!min_array){
-	perror("could not allocate space.");
-	exit(4);
-    }
-    max_array = malloc(sizeof(int) * 5);
-    if(!max_array){
-	perror("could not allocate space.");
-	exit(4);
-    }
     min_array[0] = 0;
     min_array[1] = 0;
 
