@@ -33,6 +33,7 @@ int main(int argc, char **argv){
     int k = 0;
     while (ptr != NULL){
 	k = k*10 + *ptr-'0';
+	ptr ++;
     } 
     int min_array[5];
     int max_array[5];

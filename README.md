@@ -9,7 +9,7 @@ Using K-Means to segment an input image by RGB value.
 
 Parts:
 
-k-means.c -- all methods for k-means algorithm. Implemented by David Gold. Pseudo code for get_diff and update_centroids from Jiachen Liu.
+k-means.c -- all methods for k-means algorithm. Implemented by David Gold. get_diff and update_centroids adapted fromt the implementation by Jiachen Liu.
 k-means.h -- header for k-means algorithm. Implemented by David Gold. 
 problems: None. Valgrind 
 memory leaks: None.
@@ -31,6 +31,6 @@ Makefile -- implemented by Jiachen Liu.
 
 Readme.md -- implemented by David Gold.
 
-ImageSegmentation.1 -- Man page for image segmentation program. Implemented by David Gold.
+ImageSegmentation.1 -- Man page for image segmentation program. Implemented by David Gold.Modified by Jiachen Liu
 
 
