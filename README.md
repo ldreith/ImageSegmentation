@@ -1,5 +1,5 @@
 # Image Segmentation Using K-Means
-Using K-Means to segment an input image by RGB value and x,y coordinates.
+Using K-Means to segment an input image by RGB value and the x,y coordinates.
 
 # Contributors
 - Lars Dreith
