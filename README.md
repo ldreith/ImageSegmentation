@@ -8,8 +8,9 @@ Using K-Means to segment an input image by RGB value.
 - Leo Schumann
 
 Parts:
+K-means abstract: David Gold and Jiachen Liu 
 
-k-means.c -- all methods for k-means algorithm. Implemented by David Gold. Partial code for get_diff and update_centroids from Jiachen Liu.
+k-means.c -- all methods for k-means algorithm. Implemented by David Gold. Pseudo code for get_diff and update_centroids from Jiachen Liu.
 k-means.h -- header for k-means algorithm. Implemented by David Gold. 
 problems: Valgrind errors for conditonal jump or move based off ininitalized value for file name being passed in. 
 memory leaks: None.
