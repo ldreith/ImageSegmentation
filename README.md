@@ -7,6 +7,9 @@ Using K-Means to segment an input image by RGB value.
 - Jiachen Liu
 - Leo Schumann
 
+We have adhered to the honor code on this assignment.
+Team.
+
 Parts:
 
 K-means abstract: David Gold and Jiachen Liu 
