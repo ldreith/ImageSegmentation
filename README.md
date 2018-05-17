@@ -15,7 +15,7 @@ Parts:
 K-means abstract: David Gold and Jiachen Liu 
 
 
-k-means.c -- all methods for k-means algorithm. Implemented by David Gold. Pseudo code for get_diff and update_centroids from Jiachen Liu.
+k-means.c -- all methods for k-means algorithm. Implemented by David Gold. Pseudo code for get_diff and update_centroids from Jiachen Liu. Ways of implementing discussed by Jiachen Liu and David Gold
 
 k-means.h -- header for k-means algorithm. Implemented by David Gold. 
 
